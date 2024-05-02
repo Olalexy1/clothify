@@ -1,5 +1,5 @@
 import { copyrightSign } from "../assets/icons";
-import { footerLogo } from "../assets/images";
+import { ClothifyLogo } from "../assets/images";
 import { footerLinks, socialMedia } from "../constants";
 import Image from "next/image";
 import Link from 'next/link'
@@ -9,16 +9,17 @@ const Footer = () => {
     <footer className='max-container'>
       <div className='flex justify-between items-start gap-20 flex-wrap max-lg:flex-col'>
         <div className='flex flex-col items-start'>
-          <a href='/'>
+          <a href='/' className="flex items-center">
             <Image
-              src={footerLogo}
+              src={ClothifyLogo}
               alt='logo'
-              width={150}
-              height={46}
-              className='m-0'
+              width={100}
+              height={100}
+              className='m-0 mr-3'
             />
+            <p className="font-bold text-[30px] font-montserrat text-coral-red">Clothify</p>
           </a>
-          <p className='mt-6 text-base leading-7 font-montserrat text-white-400 sm:max-w-sm'>
+          <p className='mt-3 text-base leading-7 font-montserrat text-white-400 sm:max-w-sm'>
             Get shoes ready for the new term at your nearest Nike store. Find
             Your perfect Size In Store. Get Rewards
           </p>

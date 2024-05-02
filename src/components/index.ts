@@ -4,6 +4,8 @@ import ShoeCard from "./ShoeCard";
 import PopularProductCard from "./PopularProductCard";
 import ReviewCard from "./ReviewCard";
 import ServiceCard from "./ServiceCard";
+import ThemeSwitcher from "./ThemeSwitcher";
+import Cart from "./Cart";
 
 export {
     Nav,
@@ -11,5 +13,7 @@ export {
     ShoeCard,
     PopularProductCard,
     ReviewCard,
-    ServiceCard
+    ServiceCard,
+    ThemeSwitcher,
+    Cart
 }

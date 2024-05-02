@@ -1,8 +1,10 @@
 import type { Config } from "tailwindcss";
+import { nextui } from "@nextui-org/react";
 
 const config: Config = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     fontSize: {
@@ -23,6 +25,7 @@ const config: Config = {
       },
       colors: {
         'primary': "#ECEEFF",
+        'brand': "#ED9A58",
         "coral-red": "#FF6452",
         "slate-gray": "#6D6D6D",
         "pale-blue": "#F5F6FF",
@@ -40,6 +43,13 @@ const config: Config = {
       }
     },
   },
-  plugins: [],
+  darkMode: "class",
+  corePlugins: {
+    aspectRatio: false
+  },
+  plugins: [
+    nextui(),
+    require('@tailwindcss/aspect-ratio'),
+  ],
 };
 export default config;

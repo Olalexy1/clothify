@@ -2,10 +2,11 @@ import { facebook, instagram, shieldTick, support, truckFast, twitter } from "@/
 import { bigShoe1, bigShoe2, bigShoe3, customer1, customer2, shoe4, shoe5, shoe6, shoe7, thumbnailShoe1, thumbnailShoe2, thumbnailShoe3 } from "@/assets/images";
 
 export const navLinks = [
-    { href: "#home", label: "Home" },
-    { href: "#about-us", label: "About Us" },
-    { href: "#products", label: "Products" },
-    { href: "#contact-us", label: "Contact Us" },
+    { id: "deals", href: "#", label: "Today's Deals" },
+    { id: "mens", href: "#", label: "Men's Clothing" },
+    { id: "womens", href: "#", label: "Women's Clothing" },
+    { id: "electronics", href: "#", label: "Electronics" },
+    { id: "jewelry", href: "#", label: "Jewelry" }
 ];
 
 export const shoes = [
@@ -107,22 +108,21 @@ export const reviews = [
 
 export const footerLinks = [
     {
-        title: "Products",
+        title: "Shop",
         links: [
-            { name: "Air Force 1", link: "/" },
-            { name: "Air Max 1", link: "/" },
-            { name: "Air Jordan 1", link: "/" },
-            { name: "Air Force 2", link: "/" },
-            { name: "Nike Waffle Racer", link: "/" },
-            { name: "Nike Cortez", link: "/" },
+            { name: "Today's Deal", link: "/" },
+            { name: "Men's Clothing", link: "/" },
+            { name: "Women's Clothing", link: "/" },
+            { name: "Electronics1", link: "/" },
+            { name: "Jewelry", link: "/" },
         ],
     },
     {
-        title: "Help",
+        title: "Need Help",
         links: [
             { name: "About us", link: "/" },
             { name: "FAQs", link: "/" },
-            { name: "How it works", link: "/" },
+            { name: "Chat with us", link: "/" },
             { name: "Privacy policy", link: "/" },
             { name: "Payment policy", link: "/" },
         ],
@@ -131,7 +131,7 @@ export const footerLinks = [
         title: "Get in touch",
         links: [
             { name: "customer@clothify.com", link: "mailto:customer@clothify.com" },
-            { name: "+92554862354", link: "tel:+92554862354" },
+            { name: "+2348188394639", link: "tel:+2348188394639" },
         ],
     },
 ];
@@ -141,3 +141,194 @@ export const socialMedia = [
     { src: twitter, alt: "twitter logo" },
     { src: instagram, alt: "instagram logo" },
 ];
+
+export const cartProducts = [
+    {
+        id: 1,
+        name: 'Throwback Hip Bag',
+        href: '#',
+        color: 'Salmon',
+        price: '$90.00',
+        quantity: 1,
+        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
+        imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
+    },
+    {
+        id: 2,
+        name: 'Medium Stuff Satchel',
+        href: '#',
+        color: 'Blue',
+        price: '$32.00',
+        quantity: 1,
+        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
+        imageAlt:
+            'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
+    },
+    {
+        id: 3,
+        name: 'Throwback Hip Bag',
+        href: '#',
+        color: 'Salmon',
+        price: '$90.00',
+        quantity: 1,
+        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
+        imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
+    },
+    {
+        id: 4,
+        name: 'Medium Stuff Satchel',
+        href: '#',
+        color: 'Blue',
+        price: '$32.00',
+        quantity: 1,
+        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
+        imageAlt:
+            'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
+    },
+    {
+        id: 5,
+        name: 'Throwback Hip Bag',
+        href: '#',
+        color: 'Salmon',
+        price: '$90.00',
+        quantity: 1,
+        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
+        imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
+    },
+    {
+        id: 6,
+        name: 'Medium Stuff Satchel',
+        href: '#',
+        color: 'Blue',
+        price: '$32.00',
+        quantity: 1,
+        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
+        imageAlt:
+            'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
+    },
+    // More products...
+]
+
+export const navigation = {
+    categories: [
+        {
+            id: 'women',
+            name: "Women's Clothing",
+            featured: [
+                {
+                    name: 'New Arrivals',
+                    href: '#',
+                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
+                    imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
+                },
+                {
+                    name: 'Basic Tees',
+                    href: '#',
+                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
+                    imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
+                },
+            ],
+            sections: [
+                {
+                    id: 'clothing',
+                    name: 'Clothing',
+                    items: [
+                        { name: 'Tops', href: '#' },
+                        { name: 'Dresses', href: '#' },
+                        { name: 'Pants', href: '#' },
+                        { name: 'Denim', href: '#' },
+                        { name: 'Sweaters', href: '#' },
+                        { name: 'T-Shirts', href: '#' },
+                        { name: 'Jackets', href: '#' },
+                        { name: 'Activewear', href: '#' },
+                        { name: 'Browse All', href: '#' },
+                    ],
+                },
+                {
+                    id: 'accessories',
+                    name: 'Accessories',
+                    items: [
+                        { name: 'Watches', href: '#' },
+                        { name: 'Wallets', href: '#' },
+                        { name: 'Bags', href: '#' },
+                        { name: 'Sunglasses', href: '#' },
+                        { name: 'Hats', href: '#' },
+                        { name: 'Belts', href: '#' },
+                    ],
+                },
+                {
+                    id: 'brands',
+                    name: 'Brands',
+                    items: [
+                        { name: 'Full Nelson', href: '#' },
+                        { name: 'My Way', href: '#' },
+                        { name: 'Re-Arranged', href: '#' },
+                        { name: 'Counterfeit', href: '#' },
+                        { name: 'Significant Other', href: '#' },
+                    ],
+                },
+            ],
+        },
+        {
+            id: 'men',
+            name: "Men's Clothing",
+            featured: [
+                {
+                    name: 'New Arrivals',
+                    href: '#',
+                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg',
+                    imageAlt: 'Drawstring top with elastic loop closure and textured interior padding.',
+                },
+                {
+                    name: 'Artwork Tees',
+                    href: '#',
+                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg',
+                    imageAlt:
+                        'Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.',
+                },
+            ],
+            sections: [
+                {
+                    id: 'clothing',
+                    name: 'Clothing',
+                    items: [
+                        { name: 'Tops', href: '#' },
+                        { name: 'Pants', href: '#' },
+                        { name: 'Sweaters', href: '#' },
+                        { name: 'T-Shirts', href: '#' },
+                        { name: 'Jackets', href: '#' },
+                        { name: 'Activewear', href: '#' },
+                        { name: 'Browse All', href: '#' },
+                    ],
+                },
+                {
+                    id: 'accessories',
+                    name: 'Accessories',
+                    items: [
+                        { name: 'Watches', href: '#' },
+                        { name: 'Wallets', href: '#' },
+                        { name: 'Bags', href: '#' },
+                        { name: 'Sunglasses', href: '#' },
+                        { name: 'Hats', href: '#' },
+                        { name: 'Belts', href: '#' },
+                    ],
+                },
+                {
+                    id: 'brands',
+                    name: 'Brands',
+                    items: [
+                        { name: 'Re-Arranged', href: '#' },
+                        { name: 'Counterfeit', href: '#' },
+                        { name: 'Full Nelson', href: '#' },
+                        { name: 'My Way', href: '#' },
+                    ],
+                },
+            ],
+        },
+    ],
+    pages: [
+        { name: "Today's Deals", href: '#' },
+        { name: 'Jewelry', href: '#' },
+        { name: 'Electronics', href: '#' }
+    ],
+}
