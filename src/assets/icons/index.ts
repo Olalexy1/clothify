@@ -13,6 +13,7 @@ import twitter from './twitter.svg'
 import { SearchIcon } from './searchIcon'
 import { MoonIcon } from './moonIcon'
 import { SunIcon } from './sunIcon'
+import { UserIcon } from './user'
 
 export {
     arrowRight,
@@ -29,5 +30,6 @@ export {
     twitter,
     SearchIcon,
     SunIcon,
-    MoonIcon
+    MoonIcon,
+    UserIcon
 }
