@@ -1,10 +1,15 @@
 import { Nav } from "@/components";
 import { Hero, PopularProducts, SuperQuality, Services, SpecialOffer, CustomerReviews, Subscribe, Footer } from "@/sections";
+import { createClient } from '@/utils/supabase/server';
 
-export default function Home() {
+export default async function Home() {
+  const supabase = createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+
   return (
     <main className="relative">
-      <Nav />
+      <Nav user={user}/>
       <section className='xl:padding-l wide:padding-r padding-b'>
         <Hero />
       </section>

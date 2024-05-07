@@ -4,6 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { cartProducts } from '@/constants';
 import { Badge, Select, SelectItem } from "@nextui-org/react";
+import Image from 'next/image';
 
 interface CartIconProps {
     count: number;
@@ -104,10 +105,12 @@ const Cart: React.FC<CartIconProps> = ({ count, size, height, width, ...props })
                                                             {cartProducts.map((product) => (
                                                                 <li key={product.id} className="flex py-6">
                                                                     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                                        <img
+                                                                        <Image
                                                                             src={product.imageSrc}
                                                                             alt={product.imageAlt}
                                                                             className="h-full w-full object-cover object-center"
+                                                                            width={500}
+                                                                            height={500}
                                                                         />
                                                                     </div>
 
