@@ -1,6 +1,6 @@
 "use client"
 import React, { useRef, Fragment, useState } from "react";
-import { UserIcon, SearchIcon } from "@/assets/icons";
+import { UserIcon, SearchIcon, OrderIcon, SavedIcon, HelpIcon, VouchersIcon, LogoutIcon, MessageIcon } from "@/assets/icons";
 import { ClothifyLogo } from "@/assets/images";
 import { navLinks, navigation } from "../constants";
 import Image from "next/image";
@@ -11,7 +11,7 @@ import Cart from "./Cart";
 import { avatarLetters } from "@/utils";
 import { type User } from '@supabase/supabase-js';
 import { createClient } from "@/utils/supabase/client";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 
 
 const Nav = ({ user }: { user: User | null }) => {
@@ -103,10 +103,27 @@ const Nav = ({ user }: { user: User | null }) => {
                       <Button className="w-full bg-coral-red font-montserrat font-semibold">Sign In</Button>
                     </DropdownItem>
                     <DropdownItem key="sign_up" href="/login">Sign Up</DropdownItem>
-                    <DropdownItem key="my_account" href="/account">My Account</DropdownItem>
-                    <DropdownItem key="orders">Orders</DropdownItem>
-                    <DropdownItem key="inbox">Inbox</DropdownItem>
-                    <DropdownItem key="saved_items">Saved Items</DropdownItem>
+                    <DropdownItem
+                      key="my_account"
+                      href="/account"
+                      startContent={<UserIcon className={iconClasses} />}
+                    >My Account
+                    </DropdownItem>
+                    <DropdownItem
+                      key="orders"
+                      startContent={<OrderIcon className={iconClasses} />}>
+                      Orders
+                    </DropdownItem>
+                    <DropdownItem
+                      key="inbox"
+                      startContent={<MessageIcon className={iconClasses} />}
+                    >Inbox
+                    </DropdownItem>
+                    <DropdownItem
+                      key="saved_items"
+                      startContent={<SavedIcon className={iconClasses} />}
+                    >Saved Items
+                    </DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
 
@@ -134,16 +151,42 @@ const Nav = ({ user }: { user: User | null }) => {
                     >
                       My Account
                     </DropdownItem>
-                    <DropdownItem key="orders">Orders</DropdownItem>
-                    <DropdownItem key="inbox">Inbox</DropdownItem>
-                    <DropdownItem key="saved_items">Saved Items</DropdownItem>
-                    <DropdownItem key="vouchers">Vouchers</DropdownItem>
-                    <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+                    <DropdownItem
+                      key="orders"
+                      startContent={<OrderIcon className={iconClasses} />}
+                    >
+                      Orders
+                    </DropdownItem>
+                    <DropdownItem
+                      key="inbox"
+                      startContent={<MessageIcon className={iconClasses} />}
+                    >
+                      Inbox
+                    </DropdownItem>
+                    <DropdownItem
+                      key="saved_items"
+                      startContent={<SavedIcon className={iconClasses} />}
+                    >
+                      Saved Items
+                    </DropdownItem>
+                    <DropdownItem
+                      key="vouchers"
+                      startContent={<VouchersIcon className={iconClasses} />}
+                    >
+                      Vouchers
+                    </DropdownItem>
+                    <DropdownItem
+                      key="help_and_feedback"
+                      startContent={<HelpIcon className={iconClasses} />}
+                    >
+                      Help & Feedback
+                    </DropdownItem>
                     <DropdownItem
                       key="logout"
                       color="danger"
                       // href="/auth/signout"
                       onClick={() => handleSignOut()}
+                      startContent={<LogoutIcon className={iconClasses} />}
                     >
                       Log Out
                     </DropdownItem>
