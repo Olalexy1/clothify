@@ -1,6 +1,6 @@
 "use client"
 import React, { useRef, Fragment, useState } from "react";
-import { UserIcon, SearchIcon } from "@/assets/icons";
+import { UserIcon, SearchIcon, OrderIcon, SavedIcon, HelpIcon, VouchersIcon, LogoutIcon, MessageIcon } from "@/assets/icons";
 import { ClothifyLogo } from "@/assets/images";
 import { navLinks, navigation } from "../constants";
 import Image from "next/image";
@@ -8,11 +8,13 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Input, DropdownIt
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react';
 import ThemeSwitcher from "./ThemeSwitcher";
 import Cart from "./Cart";
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import { avatarLetters } from "@/utils";
+import { type User } from '@supabase/supabase-js';
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from 'next/navigation';
 
 
-const Nav = () => {
+const Nav = ({ user }: { user: User | null }) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   // const containerRef = useRef()
   const iconClasses = "text-xl text-default-500 pointer-events-none flex-shrink-0";
@@ -21,7 +23,21 @@ const Nav = () => {
     return classes.filter(Boolean).join(' ')
   }
 
+  const router = useRouter()
 
+  const supabase = createClient()
+
+  const handleSignOut = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (user) {
+      await supabase.auth.signOut()
+    }
+
+    router.refresh()
+  }
 
   return (
     <header className='padding-x py-2 w-full sticky top-0 z-40 backdrop-filter backdrop-blur'>
@@ -72,56 +88,113 @@ const Nav = () => {
           </NavbarContent>
 
           <NavbarContent as="div" className="items-center m-0" justify="end">
-            <Dropdown placement="bottom-end">
-              <DropdownTrigger>
-                <div className="flex align-center cursor-pointer space-x-2 hover:text-coral-red">
-                  <UserIcon />
-                  <p className="font-montserrat font-semibold">Account</p>
-                </div>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Profile Actions" variant="flat">
-                <DropdownItem key="sign_in" href="#">
-                  <Button className="w-full bg-coral-red font-montserrat font-semibold">Sign In</Button>
-                </DropdownItem>
-                <DropdownItem key="sign_up" href="">Sign Up</DropdownItem>
-                <DropdownItem key="my_account" href="">My Account</DropdownItem>
-                <DropdownItem key="orders">Orders</DropdownItem>
-                <DropdownItem key="inbox">Inbox</DropdownItem>
-                <DropdownItem key="saved_items">Saved Items</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
 
-            <Dropdown placement="bottom-end">
-              <DropdownTrigger>
-                <Avatar
-                  as="button"
-                  className="transition-transform text-coral-red font-montserrat font-bold text-lg leading-none"
-                  name={avatarLetters('Ajayi Olalekan')}
-                  size="md"
-                // src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-                />
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Profile Actions" variant="flat">
-                <DropdownItem key="profile" className="h-14 gap-2">
-                  <p className="font-semibold">Signed in as</p>
-                  <p className="font-semibold">zoey@example.com</p>
-                </DropdownItem>
-                <DropdownItem
-                  key="my_account"
-                  startContent={<UserIcon className={iconClasses} />}
-                >
-                  My Account
-                </DropdownItem>
-                <DropdownItem key="orders">Orders</DropdownItem>
-                <DropdownItem key="inbox">Inbox</DropdownItem>
-                <DropdownItem key="saved_items">Saved Items</DropdownItem>
-                <DropdownItem key="vouchers">Vouchers</DropdownItem>
-                <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-                <DropdownItem key="logout" color="danger">
-                  Log Out
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            {user === null ?
+              <>
+                <Dropdown placement="bottom-end">
+                  <DropdownTrigger>
+                    <div className="flex align-center cursor-pointer space-x-2 hover:text-coral-red">
+                      <UserIcon />
+                      <p className="font-montserrat font-semibold">Account</p>
+                    </div>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Profile Actions" variant="flat">
+                    <DropdownItem key="sign_in" href="/login">
+                      <Button className="w-full bg-coral-red font-montserrat font-semibold">Sign In</Button>
+                    </DropdownItem>
+                    <DropdownItem key="sign_up" href="/login">Sign Up</DropdownItem>
+                    <DropdownItem
+                      key="my_account"
+                      href="/account"
+                      startContent={<UserIcon className={iconClasses} />}
+                    >My Account
+                    </DropdownItem>
+                    <DropdownItem
+                      key="orders"
+                      startContent={<OrderIcon className={iconClasses} />}>
+                      Orders
+                    </DropdownItem>
+                    <DropdownItem
+                      key="inbox"
+                      startContent={<MessageIcon className={iconClasses} />}
+                    >Inbox
+                    </DropdownItem>
+                    <DropdownItem
+                      key="saved_items"
+                      startContent={<SavedIcon className={iconClasses} />}
+                    >Saved Items
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+
+              </> :
+              <>
+                <Dropdown placement="bottom-end">
+                  <DropdownTrigger>
+                    <Avatar
+                      as="button"
+                      className="transition-transform text-coral-red font-montserrat font-bold text-lg leading-none"
+                      name={avatarLetters('Ajayi Olalekan')}
+                      size="md"
+                    // src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                    />
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Profile Actions" variant="flat">
+                    <DropdownItem key="profile" className="h-14 gap-2">
+                      <p className="font-semibold">Signed in as</p>
+                      <p className="font-semibold">{user?.email}</p>
+                    </DropdownItem>
+                    <DropdownItem
+                      key="my_account"
+                      startContent={<UserIcon className={iconClasses} />}
+                      href="/account"
+                    >
+                      My Account
+                    </DropdownItem>
+                    <DropdownItem
+                      key="orders"
+                      startContent={<OrderIcon className={iconClasses} />}
+                    >
+                      Orders
+                    </DropdownItem>
+                    <DropdownItem
+                      key="inbox"
+                      startContent={<MessageIcon className={iconClasses} />}
+                    >
+                      Inbox
+                    </DropdownItem>
+                    <DropdownItem
+                      key="saved_items"
+                      startContent={<SavedIcon className={iconClasses} />}
+                    >
+                      Saved Items
+                    </DropdownItem>
+                    <DropdownItem
+                      key="vouchers"
+                      startContent={<VouchersIcon className={iconClasses} />}
+                    >
+                      Vouchers
+                    </DropdownItem>
+                    <DropdownItem
+                      key="help_and_feedback"
+                      startContent={<HelpIcon className={iconClasses} />}
+                    >
+                      Help & Feedback
+                    </DropdownItem>
+                    <DropdownItem
+                      key="logout"
+                      color="danger"
+                      // href="/auth/signout"
+                      onClick={() => handleSignOut()}
+                      startContent={<LogoutIcon className={iconClasses} />}
+                    >
+                      Log Out
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </>
+            }
+
             <ThemeSwitcher className="hidden md:flex transition-transform" />
             <Cart count={9} />
           </NavbarContent>
@@ -129,18 +202,6 @@ const Nav = () => {
           <NavbarMenu className="padding-x scrollbar-thumb-coral-red scrollbar-track-red-100 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
             <div className="flex-1 flex flex-col py-5 justify-between">
               <div className="space-y-3">
-                {/* {navLinks.map((item, index) => (
-                  <NavbarMenuItem key={item.id}>
-                    <Link
-                      className="w-full text-base font-medium text-gray-700 hover:text-coral-red font-montserrat dark:text-white dark:hover:text-coral-red"
-                      href={item.href}
-                      size="lg"
-                      onClick={() => handleFlyout(item.id, item.href)}
-                    >
-                      {item.label}
-                    </Link>
-                  </NavbarMenuItem>
-                ))} */}
 
                 <Input
                   classNames={{
@@ -180,7 +241,13 @@ const Nav = () => {
                           {category.featured.map((item) => (
                             <div key={item.name} className="group relative text-sm">
                               <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
-                                <img src={item.imageSrc} alt={item.imageAlt} className="object-cover object-center" />
+                                <Image
+                                  src={item.imageSrc}
+                                  alt={item.imageAlt}
+                                  className="object-cover object-center"
+                                  width={500}
+                                  height={500}
+                                />
                               </div>
                               <a href={item.href} className="mt-6 block font-medium text-gray-900 dark:text-white">
                                 <span className="absolute inset-0 z-10" aria-hidden="true" />
@@ -279,10 +346,12 @@ const Nav = () => {
                                 {category.featured.map((item) => (
                                   <div key={item.name} className="group relative text-base sm:text-sm">
                                     <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
-                                      <img
+                                      <Image
                                         src={item.imageSrc}
                                         alt={item.imageAlt}
                                         className="object-cover object-center"
+                                        width={500}
+                                        height={500}
                                       />
                                     </div>
                                     <a href={item.href} className="mt-6 block font-medium text-gray-900 dark:text-white">

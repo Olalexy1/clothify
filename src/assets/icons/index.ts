@@ -14,6 +14,13 @@ import { SearchIcon } from './searchIcon'
 import { MoonIcon } from './moonIcon'
 import { SunIcon } from './sunIcon'
 import { UserIcon } from './user'
+import OrderIcon from './orderIcon'
+import SavedIcon from './savedIcon'
+import HelpIcon from './helpIcon'
+import VouchersIcon from './vouchersIcon'
+import LogoutIcon from './logoutIcon'
+import MessageIcon from './messageIcon'
+
 
 export {
     arrowRight,
@@ -31,5 +38,11 @@ export {
     SearchIcon,
     SunIcon,
     MoonIcon,
-    UserIcon
+    UserIcon,
+    OrderIcon,
+    SavedIcon,
+    HelpIcon,
+    VouchersIcon,
+    LogoutIcon,
+    MessageIcon
 }
