@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import ToastProvider from "@/utils/react-toastify/ToastProvider";
 
 export const metadata: Metadata = {
   title: "Clothify",
@@ -23,7 +24,9 @@ export default function RootLayout({
     >
       <body>
         <Providers>
-          {children}
+          <ToastProvider>
+            {children}
+          </ToastProvider>
         </Providers>
       </body>
     </html>

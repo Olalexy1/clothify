@@ -32,7 +32,7 @@ const Button: React.FC<ButtonPops> = ({
         <button
             type={type}
             disabled={isDisabled}
-            className={`flex justify-center items-center gap-2 px-7 py-4 border font-montserrat text-base leading-none hover:opacity-95
+            className={`flex justify-center items-center gap-2 px-7 py-4 border font-montserrat text-base leading-none hover:opacity-80
         ${backgroundColor
                     ? `${backgroundColor} ${textColor} ${borderColor}`
                     : "bg-coral-red text-white border-coral-red"

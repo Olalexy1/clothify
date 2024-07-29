@@ -87,19 +87,7 @@ const Nav = ({ user }: { user: User | null }) => {
           </NavbarContent>
 
           <NavbarContent className="hidden md:flex gap-3 ">
-            {/* <Input
-              classNames={{
-                base: "max-w-full h-10",
-                mainWrapper: "h-full",
-                input: "text-small",
-                inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
-              }}
-              placeholder="Type to search..."
-              size="sm"
-              startContent={<SearchIcon size={18} className="text-2xl" />}
-              type="search"
-            /> */}
-            <CustomInput
+            <Input
               classNames={{
                 base: "max-w-full h-10",
                 mainWrapper: "h-full",
@@ -232,7 +220,7 @@ const Nav = ({ user }: { user: User | null }) => {
             <div className="flex-1 flex flex-col py-5 justify-between">
               <div className="space-y-3">
 
-                <CustomInput
+                <Input
                   classNames={{
                     base: "max-w-full h-10",
                     mainWrapper: "h-full",

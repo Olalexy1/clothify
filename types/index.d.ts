@@ -17,3 +17,16 @@ declare interface AuthFormProps {
   onFormTypeChange: (newType: { type: "sign-in" | "sign-up" }) => void;
 }
 
+declare interface loginProps {
+  email: string;
+  password: string;
+}
+
+declare interface signUpProps {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  dateOfBirth: string;
+  gender: string;
+}

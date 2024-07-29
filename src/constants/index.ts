@@ -622,6 +622,6 @@ export const countryNameToCodeMap: Record<string, string> = {
 };
 
 export const genders = [
-  { key: "male", label: "  Male" },
-  { key: "female", label: "Female" },
+  { key: "Male", label: "  Male" },
+  { key: "Female", label: "Female" },
 ];

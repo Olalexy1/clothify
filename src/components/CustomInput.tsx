@@ -1,19 +1,24 @@
-import { Input } from '@nextui-org/react'
-import React from 'react'
+import { Input, InputProps } from '@nextui-org/react';
+import React from 'react';
 import { cn } from '@nextui-org/react';
+import { z } from 'zod'
+import { Control, FieldPath } from "react-hook-form";
+import { authFormSchema } from '@/utils';
+import { FormControl, FormField } from './Form';
 
+const formSchema = authFormSchema('sign-in')
+
+const newFormSchema = formSchema.omit({ terms: true, rememberSession: true, gender: true });
 interface CustomInputProps {
     label?: string;
-    placeholder: string;
+    placeholder?: string;
     type: string;
     autoComplete?: string;
     variant?: "flat" | "faded" | "bordered" | "underlined" | undefined;
-    autofocus?: boolean;
+    autoFocus?: boolean;
     startContent?: React.ReactNode;
     endContent?: React.ReactNode;
-    endContentClick?: () => void;
     className?: string;
-    ref?: any;
     isDisabled?: boolean;
     isClearable?: boolean;
     isRequired?: boolean;
@@ -24,20 +29,21 @@ interface CustomInputProps {
     classNames?: Partial<Record<"base" | "label" | "inputWrapper" | "innerWrapper" | "mainWrapper" | "input" | "clearButton" | "helperWrapper" | "description" | "errorMessage", string>>;
     fullWidth?: boolean;
     size?: "sm" | "md" | "lg" | undefined;
+    errorMessage?: string;
+    control: Control<z.infer<typeof newFormSchema>>;
+    name: FieldPath<z.infer<typeof newFormSchema>>;
 }
 
-const CustomInput: React.FC<CustomInputProps> = ({
+const CustomInput: React.FC<CustomInputProps & InputProps> = ({
     label,
     placeholder,
     type,
     autoComplete,
     variant,
-    autofocus,
+    autoFocus,
     startContent,
     endContent,
-    endContentClick,
     className,
-    ref,
     isDisabled,
     isClearable,
     isRequired,
@@ -48,41 +54,50 @@ const CustomInput: React.FC<CustomInputProps> = ({
     classNames,
     fullWidth,
     size,
+    errorMessage,
+    control,
+    name,
+    ...props
 }) => {
     return (
-        <Input
-            autoFocus={autofocus}
-            startContent={startContent}
-            // endContent={
-            //     <button className="focus:outline-none" type="button" onClick={endContentClick}
-            //     aria-label="toggle password visibility"
-            //     >
-            //         {endContent}
-            //     </button>
-            // }
-            endContent={endContent}
-            label={label}
-            placeholder={placeholder}
-            variant={variant}
-            className={cn(
-                "",
-                className
-            )}
-            type={type}
-            autoComplete={autoComplete}
-            ref={ref}
-            isDisabled={isDisabled}
-            isClearable={isClearable}
-            isRequired={isRequired}
-            defaultValue={defaultValue}
-            labelPlacement={"inside" || labelPlacement}
-            description={description}
-            isInvalid={isInvalid}
-            color={isInvalid ? "danger" : "default"}
-            classNames={classNames}
-            fullWidth={fullWidth}
-            size={size}
+        <FormField
+            name={name}
+            control={control}
+            render={({ field }) =>
+                <FormControl>
+                    <Input
+                        autoFocus={autoFocus}
+                        startContent={startContent}
+                        endContent={endContent}
+                        label={label}
+                        placeholder={placeholder}
+                        variant={variant}
+                        className={cn(
+                            "",
+                            className
+                        )}
+                        type={type}
+                        autoComplete={autoComplete}
+                        isDisabled={isDisabled}
+                        isClearable={isClearable}
+                        isRequired={isRequired}
+                        defaultValue={defaultValue}
+                        labelPlacement={"inside" || labelPlacement}
+                        description={description}
+                        isInvalid={isInvalid}
+                        color={isInvalid ? "danger" : "default"}
+                        classNames={classNames}
+                        fullWidth={fullWidth}
+                        size={size}
+                        errorMessage={errorMessage}
+                        {...field}
+                    />
+                </FormControl>
+
+            }
         />
+
+
     )
 }
 
