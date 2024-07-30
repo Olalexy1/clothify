@@ -20,7 +20,11 @@ import HelpIcon from './helpIcon'
 import VouchersIcon from './vouchersIcon'
 import LogoutIcon from './logoutIcon'
 import MessageIcon from './messageIcon'
-
+import MailIcon from './mailIcon'
+import LockIcon from './lockIcon'
+import AppleIcon from './appleIcon'
+import GoogleIcon from './googleIcon'
+import CalendarIcon from './calenderIcon'
 
 export {
     arrowRight,
@@ -44,5 +48,10 @@ export {
     HelpIcon,
     VouchersIcon,
     LogoutIcon,
-    MessageIcon
+    MessageIcon,
+    MailIcon,
+    LockIcon,
+    AppleIcon,
+    GoogleIcon,
+    CalendarIcon
 }

@@ -4,20 +4,25 @@ import { UserIcon, SearchIcon, OrderIcon, SavedIcon, HelpIcon, VouchersIcon, Log
 import { ClothifyLogo } from "@/assets/images";
 import { navLinks, navigation } from "../constants";
 import Image from "next/image";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button } from "@nextui-org/react";
-import { Dialog, Popover, Tab, Transition } from '@headlessui/react';
+import { Navbar, NavbarBrand, NavbarContent, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, NavbarMenuToggle, NavbarMenu, Button, useDisclosure } from "@nextui-org/react";
+import { Popover, Tab, Transition } from '@headlessui/react';
 import ThemeSwitcher from "./ThemeSwitcher";
 import Cart from "./Cart";
 import { avatarLetters } from "@/utils";
 import { type User } from '@supabase/supabase-js';
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from 'next/navigation';
+import AuthForm from "./AuthForm";
+import CustomInput from "./CustomInput";
 
 
 const Nav = ({ user }: { user: User | null }) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   // const containerRef = useRef()
   const iconClasses = "text-xl text-default-500 pointer-events-none flex-shrink-0";
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+
+  const [formType, setFormType] = useState<FormType>('sign-in');
 
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -38,6 +43,15 @@ const Nav = ({ user }: { user: User | null }) => {
 
     router.refresh()
   }
+
+  const handleFormType = (type: FormType) => {
+    setFormType(type);
+    onOpen();
+  }
+
+  const handleFormTypeChange = (newType: { type: "sign-in" | "sign-up" }) => {
+    setFormType(newType.type);
+  };
 
   return (
     <header className='padding-x py-2 w-full sticky top-0 z-40 backdrop-filter backdrop-blur'>
@@ -82,8 +96,9 @@ const Nav = ({ user }: { user: User | null }) => {
               }}
               placeholder="Type to search..."
               size="sm"
-              startContent={<SearchIcon size={18} />}
-              type="search"
+              startContent={<SearchIcon size={20} className="text-2xl" />}
+              type="text"
+              isClearable={true}
             />
           </NavbarContent>
 
@@ -99,10 +114,10 @@ const Nav = ({ user }: { user: User | null }) => {
                     </div>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Profile Actions" variant="flat">
-                    <DropdownItem key="sign_in" href="/login">
-                      <Button className="w-full bg-coral-red font-montserrat font-semibold">Sign In</Button>
+                    <DropdownItem key="sign_in">
+                      <Button onPress={() => handleFormType('sign-in')} className="w-full bg-coral-red font-montserrat font-semibold">Sign In</Button>
                     </DropdownItem>
-                    <DropdownItem key="sign_up" href="/login">Sign Up</DropdownItem>
+                    <DropdownItem key="sign_up" onPress={() => handleFormType('sign-up')}>Sign Up</DropdownItem>
                     <DropdownItem
                       key="my_account"
                       href="/account"
@@ -127,6 +142,8 @@ const Nav = ({ user }: { user: User | null }) => {
                   </DropdownMenu>
                 </Dropdown>
 
+                <AuthForm isModalOpen={isOpen} onModalOpenChange={onOpenChange} onModalClose={onClose} type={formType} onFormTypeChange={handleFormTypeChange} />
+
               </> :
               <>
                 <Dropdown placement="bottom-end">
@@ -134,7 +151,7 @@ const Nav = ({ user }: { user: User | null }) => {
                     <Avatar
                       as="button"
                       className="transition-transform text-coral-red font-montserrat font-bold text-lg leading-none"
-                      name={avatarLetters('Ajayi Olalekan')}
+                      name={avatarLetters(`Ajayi Olalekan`)}
                       size="md"
                     // src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
                     />
@@ -212,8 +229,9 @@ const Nav = ({ user }: { user: User | null }) => {
                   }}
                   placeholder="Type to search..."
                   size="sm"
-                  startContent={<SearchIcon size={18} />}
-                  type="search"
+                  startContent={<SearchIcon size={20} className="text-2xl" />}
+                  type="text"
+                  isClearable={true}
                 />
 
                 <Tab.Group as="div" className="mt-2">

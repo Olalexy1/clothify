@@ -48,7 +48,9 @@ const config: Config = {
     aspectRatio: false
   },
   plugins: [
-    nextui(),
+    nextui({
+      addCommonColors: true
+    }),
     require('@tailwindcss/aspect-ratio'),
     require('tailwind-scrollbar'),
   ],
