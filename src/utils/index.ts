@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { DateValue, parseDate } from "@internationalized/date";
+import { DateValue } from "@internationalized/date";
 import {
   toast,
   ToastContent,
@@ -137,6 +137,14 @@ const phoneRegexNew = new RegExp(/(\+|00)(\s*\d{2,4}\s*){1,3}\d{4,20}$/);
 
 const genderOptions = ["Male", "Female"] as const;
 
+function toJSDate(dateValue: DateValue | null | undefined): Date | null {
+  if (dateValue === null || dateValue === undefined) {
+    return null;
+  }
+
+  return new Date(dateValue.year, dateValue.month - 1, dateValue.day);
+}
+
 export const authFormSchema = (type: string) =>
   z.object({
     // sign up
@@ -164,75 +172,43 @@ export const authFormSchema = (type: string) =>
             .max(256, {
               message: "Last name must be between 3 and 256 characters long",
             }),
-    // dateOfBirth:
-    //   type === "sign-in"
-    //     ? z.string().optional()
-    //     : z
-    //         .string({ message: "Date of birth is required." })
-    //         .date()
-    //         .refine(
-    //           (date) => {
-    //             // Calculate age
-    //             const today = new Date();
-    //             const birthDate = new Date(date);
-    //             let age = today.getFullYear() - birthDate.getFullYear();
-    //             const m = today.getMonth() - birthDate.getMonth();
-    //             if (
-    //               m < 0 ||
-    //               (m === 0 && today.getDate() < birthDate.getDate())
-    //             ) {
-    //               age--;
-    //             }
-    //             // Check if age is at least 18
-    //             return age >= 18;
-    //           },
-    //           {
-    //             message: "You must be at least 18 years old.",
-    //           }
-    //         ),
-    // dateOfBirth:
-    //   type === "sign-in"
-    //     ? z.optional(
-    //         z.custom<DateValue | null | undefined>(
-    //           (val) => val === null || val === undefined || val instanceof Date
-    //         )
-    //       )
-    //     : z.custom<DateValue | null>(
-    //         (val) => val === null || val instanceof Date,
-    //         {
-    //           message: "Date of birth is required.",
-    //         }
-    //       ),
-    // dateOfBirth: z.optional(
-    //   z.custom<DateValue | null | undefined>(
-    //     (val) => val === null || val === undefined || val instanceof Date
-    //   )
-    // ),
-    // .refine(
-    //   (date) => {
-    //     // Calculate age
-    //     const today = new Date();
-    //     const birthDate = new Date(date);
-    //     let age = today.getFullYear() - birthDate.getFullYear();
-    //     const m = today.getMonth() - birthDate.getMonth();
-    //     if (
-    //       m < 0 ||
-    //       (m === 0 && today.getDate() < birthDate.getDate())
-    //     ) {
-    //       age--;
-    //     }
-    //     // Check if age is at least 18
-    //     return age >= 18;
-    //   },
-    //   { message: "You must be at least 18 years old." }
-    // ),
+    dateOfBirth:
+      type === "sign-in"
+        ? z.optional(z.custom<DateValue>((val) => val))
+        : z
+            .custom<DateValue>((val) => val, {
+              message: "Date of birth is required.",
+            })
+            .refine(
+              (date) => {
+                if (date === null || date === undefined) {
+                  return true;
+                }
+                const today = new Date();
+                // const birthDate = new Date(date);
+                const birthDate = toJSDate(date);
+                let age = today.getFullYear() - birthDate!.getFullYear();
+                const m = today.getMonth() - birthDate!.getMonth();
+                if (
+                  m < 0 ||
+                  (m === 0 && today.getDate() < birthDate!.getDate())
+                ) {
+                  age--;
+                }
+                return age >= 16;
+              },
+              {
+                message: "You must be at least 16 years old.",
+              }
+            ),
     // confirmPassword:
     //   type === "sign-in"
     //     ? z.string().optional()
     //     : z.string({ message: "Confirm password is required." }),
-    gender: type === "sign-in"
-      ? z.optional(z.enum(genderOptions))
-      : z.enum(genderOptions, { message: "Gender is required." }),
+    gender:
+      type === "sign-in"
+        ? z.optional(z.enum(genderOptions))
+        : z.enum(genderOptions, { message: "Gender is required." }),
     terms: z.boolean().optional(),
     rememberSession: z.boolean().optional(),
     // both

@@ -7,7 +7,7 @@ declare interface ModalProps {
   onModalClose: () => void;
 }
 
-declare type FormType = 'sign-in' | 'sign-up';
+declare type FormType = "sign-in" | "sign-up";
 
 declare interface AuthFormProps {
   isModalOpen: boolean;
@@ -20,6 +20,7 @@ declare interface AuthFormProps {
 declare interface loginProps {
   email: string;
   password: string;
+  remember?: boolean;
 }
 
 declare interface signUpProps {
@@ -29,4 +30,18 @@ declare interface signUpProps {
   password: string;
   dateOfBirth: string;
   gender: string;
+}
+
+declare interface userDataUpdateProps {
+  firstName?: string;
+  lastName?: string;
+  dateOfBirth?: string;
+  gender?: string;
+  phone?: string;
+}
+
+declare interface updateProps {
+  email?: string;
+  password?: string;
+  updateDetails?: userDataUpdateProps;
 }

@@ -8,7 +8,7 @@ import { FormControl, FormField } from './Form';
 
 const formSchema = authFormSchema('sign-in')
 
-const newFormSchema = formSchema.omit({ terms: true, rememberSession: true, gender: true });
+const newFormSchema = formSchema.omit({ terms: true, rememberSession: true, gender: true, dateOfBirth: true });
 interface CustomInputProps {
     label?: string;
     placeholder?: string;

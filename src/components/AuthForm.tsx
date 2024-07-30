@@ -16,7 +16,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login, signUp } from '@/utils/actions/user.actions';
 import { Form } from './Form';
-import { parseDate } from "@internationalized/date";
 
 const AuthForm = ({ isModalOpen, onModalOpenChange, onModalClose, type, onFormTypeChange }: AuthFormProps) => {
 
@@ -27,12 +26,6 @@ const AuthForm = ({ isModalOpen, onModalOpenChange, onModalClose, type, onFormTy
     const handleClick = () => setShow(!show);
     const handleClickTwo = () => setShowTwo(!showTwo);
 
-    const handleFormTypeToggle = (e: any) => {
-        e.preventDefault();
-        const newType = type === 'sign-in' ? 'sign-up' : 'sign-in';
-        onFormTypeChange({ type: newType });
-    };
-
     const formSchema = authFormSchema(type);
 
     const methods = useForm<z.infer<typeof formSchema>>({
@@ -42,7 +35,14 @@ const AuthForm = ({ isModalOpen, onModalOpenChange, onModalClose, type, onFormTy
             password: '',
             // terms: false
         }
-    })
+    });
+
+    const handleFormTypeToggle = (e: any) => {
+        e.preventDefault();
+        const newType = type === 'sign-in' ? 'sign-up' : 'sign-in';
+        onFormTypeChange({ type: newType });
+        methods.reset();
+    };
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setIsLoading(true);
@@ -80,7 +80,7 @@ const AuthForm = ({ isModalOpen, onModalOpenChange, onModalClose, type, onFormTy
                 const userData = {
                     firstName: data.firstName!,
                     lastName: data.lastName!,
-                    // dateOfBirth: data.dateOfBirth!,
+                    dateOfBirth: data.dateOfBirth!.toString(),
                     email: data.email!,
                     password: encryptId(data.password!),
                     terms: data.terms!,
@@ -88,6 +88,24 @@ const AuthForm = ({ isModalOpen, onModalOpenChange, onModalClose, type, onFormTy
                 }
 
                 console.log(userData, 'see user sign-up data');
+
+                const response = await signUp({
+                    email: data.email!,
+                    password: encryptId(data.password!),
+                    firstName: data.firstName!,
+                    lastName: data.lastName!,
+                    dateOfBirth: data.dateOfBirth!.toString(),
+                    gender: data.gender!
+                })
+
+                if (response?.signUpError) {
+                    showToast("error", `User Registration failed: ${response.signUpError}`);
+                }
+                else {
+                    showToast("success", "User registration successful");
+                    showToast("info", "Verification email sent");
+                    setIsLoading(false);
+                }
 
             }
 
@@ -103,7 +121,8 @@ const AuthForm = ({ isModalOpen, onModalOpenChange, onModalClose, type, onFormTy
 
                 const response = await login({
                     email: data.email!,
-                    password: encryptId(data.password!),
+                    password: data.password!,
+                    remember: data.rememberSession!
                 })
 
                 if (response?.loginError) {
@@ -113,6 +132,7 @@ const AuthForm = ({ isModalOpen, onModalOpenChange, onModalClose, type, onFormTy
                     showToast("success", "User successfully logged in");
                     setIsLoading(false);
                 }
+
             }
 
             // if (type === 'forgot-password') {
@@ -202,7 +222,7 @@ const AuthForm = ({ isModalOpen, onModalOpenChange, onModalClose, type, onFormTy
                                 </div>
                                 <div className='flex justify-between items-center gap-3'>
 
-                                    {/* <Controller
+                                    <Controller
                                         name="dateOfBirth"
                                         control={methods.control}
                                         render={({ field: { onChange, onBlur, value } }) => (
@@ -214,30 +234,20 @@ const AuthForm = ({ isModalOpen, onModalOpenChange, onModalClose, type, onFormTy
                                                 }
                                                 variant='bordered'
                                                 labelPlacement="inside"
-                                                // isInvalid={!!methods.formState.errors.dateOfBirth}
-                                                // errorMessage={methods.formState.errors.dateOfBirth?.message}
-                                                // errorMessage={(value) => {
-                                                //     if (value.isInvalid) {
-                                                //         return "Please enter a valid date.";
-                                                //     }
-                                                // }}
+                                                isInvalid={!!methods.formState.errors.dateOfBirth}
+                                                errorMessage={methods.formState.errors.dateOfBirth?.message}
                                                 showMonthAndYearPickers
-                                                onBlur={onBlur}
-                                                value={methods.getValues(`dateOfBirth`)}
+                                                name="dateOfBirth"
+                                                value={value}
                                                 onChange={onChange}
-                                            // value={value ? new Date(value).toISOString().slice(0, 10) : ""}
-                                            // onChange={(date) => {
-                                            //     const newDateValue = date ? parseDate(date) : null;
-                                            //     onChange(newDateValue);
-                                            // }}
                                             />
                                         )}
-                                    /> */}
+                                    />
 
                                     <Controller
                                         name="gender"
                                         control={methods.control}
-                                        render={({ field: { onChange, onBlur, value, name, } }) => (
+                                        render={({ field: { onChange, onBlur, value, } }) => (
                                             <Select
                                                 label="Select Gender"
                                                 variant="bordered"
@@ -247,20 +257,6 @@ const AuthForm = ({ isModalOpen, onModalOpenChange, onModalClose, type, onFormTy
                                                 selectionMode='single'
                                                 value={value}
                                                 name='gender'
-                                                // onSelectionChange={value => field.onChange({
-                                                //     target: {
-                                                //         name: field.name,
-                                                //         value,
-                                                //     },
-                                                // })}
-                                                // onBlur={onBlur}
-                                                // onChange={value => onChange({
-                                                //     target: {
-                                                //         name: name,
-                                                //         value: value.key,
-                                                //     },
-                                                // })}
-                                                // onChange={value => onChange(value.key)}
                                                 onChange={onChange}
                                                 isInvalid={!!methods.formState.errors.gender}
                                                 errorMessage={methods.formState.errors.gender?.message}
