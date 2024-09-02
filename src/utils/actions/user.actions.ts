@@ -27,14 +27,6 @@ export async function login({ email, password, remember }: loginProps) {
     return { loginData: null, loginError };
   }
 
-  if (remember) {
-    cookies().set("clothify", data.session.access_token, {
-      path: "/",
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true,
-    });
-  }
 
   loginData = parseStringify(data);
   return { loginData, error: null };
@@ -57,6 +49,14 @@ export async function signUp(formData: signUpProps) {
   const signUpData = {
     email: email as string,
     password: decryptPassword as string,
+    options: {
+      data: {
+        firstName: firstName as string,
+        lastName: lastName as string,
+        gender: gender as string,
+        dateOfBirth: dateOfBirth as string,
+      },
+    },
   };
 
   const { data, error } = await supabase.auth.signUp(signUpData);
@@ -67,42 +67,7 @@ export async function signUp(formData: signUpProps) {
     return { registrationData: null, signUpError };
   }
 
-  console.log(data, "see registration data in action");
-
-  console.log(error, "see sign-up error data in action");
-
-  const signInCredentials = {
-    email: email as string,
-    password: password as string,
-  };
-
-  const { data: signInResponse, error: signInError } =
-    await supabase.auth.signInWithPassword(signInCredentials);
-
-  console.log(signInResponse, "see sign in response in registration in action");
-
-  if (signInResponse.session) {
-    cookies().set("clothify", signInResponse.session.access_token, {
-      path: "/",
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true,
-    });
-
-    const { data: updateData, error: updateError } =
-      await supabase.auth.updateUser({
-        data: {
-          firstName: firstName,
-          lastName: lastName,
-          gender: gender,
-          dateOfBirth: dateOfBirth,
-        },
-      });
-
-    console.log(updateData, "see updateData in action");
-
-    console.log(updateError, "see updateError in action");
-  }
+  console.log(1);
 
   registrationData = parseStringify(data);
   return { registrationData, error: null };
